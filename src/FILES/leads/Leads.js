@@ -5,6 +5,7 @@ import { useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { GetUserType } from "../authentication/UserType";
+import { API_URL } from "../globalConstants";
 
 export function Leads({ data, leadData }) {
   const history = useHistory();
@@ -18,7 +19,7 @@ export function Leads({ data, leadData }) {
 
   // TO DELETE A LEAD
   const deleteLeads = (_id) => {
-    fetch(`http://localhost:9000/lead/${_id}`, {
+    fetch(`${API_URL}/lead/${_id}`, {
       method: "DELETE",
       body: JSON.stringify(),
     }).then(() => leadData());

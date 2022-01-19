@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { API_URL } from "../globalConstants";
 
 export function Login() {
   const history = useHistory();
@@ -13,7 +14,7 @@ export function Login() {
 
   // CHECKING THE SERVER STORAGE TO VERIFY THE CREDENTIALS
   async function userLogin(userInfo) {
-    const response = await fetch("http://localhost:9000/login", {
+    const response = await fetch(`${API_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +27,7 @@ export function Login() {
       localStorage.setItem("Token", data.token);
 
       const leadData = () => {
-        fetch("http://localhost:9000/lead", {
+        fetch(`${API_URL}/lead`, {
           method: "GET",
         })
           .then((data) => data.json())
@@ -106,5 +107,5 @@ export function Login() {
   );
 }
 
-// http://localhost:9000/login
-// http://localhost:9000/login
+// ${API_URL}/login
+// ${API_URL}/login

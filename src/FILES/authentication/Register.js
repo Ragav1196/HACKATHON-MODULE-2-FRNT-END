@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { GetUserType } from "./UserType";
 import * as yup from "yup";
 import { context } from "../link/Links";
+import { API_URL } from "../globalConstants";
 
 export function Register() {
 
@@ -27,7 +28,7 @@ export function Register() {
 
   // TO PUSH THE NEW USER TO THE SERVER STORAGE:
   async function RegisterUser(userInfo) {
-    const response = await fetch("http://localhost:9000/register", {
+    const response = await fetch(`${API_URL}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -246,5 +247,5 @@ export function Register() {
   );
 }
 
-// http://localhost:9000/register
-// http://localhost:9000/register
+// ${API_URL}/register
+// ${API_URL}/register

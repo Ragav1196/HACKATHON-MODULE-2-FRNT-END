@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import * as yup from "yup";
+import { API_URL } from "../globalConstants";
 
 export function EditLeadFn() {
   const { id } = useParams();
@@ -12,7 +13,7 @@ export function EditLeadFn() {
   const [lead, setLead] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:9000/lead/${id}`, {
+    fetch(`${API_URL}/lead/${id}`, {
       method: "GET",
     })
       .then((data) => data.json())
@@ -42,7 +43,7 @@ export function EditLead({ lead, id }) {
   });
 
   let dataFrmDB = (updatedLead) => {
-    fetch(`http://localhost:9000/lead/${id}`, {
+    fetch(`${API_URL}/lead/${id}`, {
       method: "PUT",
       body: JSON.stringify(updatedLead),
       headers: { "Content-Type": "application/json" },

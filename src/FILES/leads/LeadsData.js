@@ -7,6 +7,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { GetUserType } from "../authentication/UserType";
+import { API_URL } from "../globalConstants";
 
 export function LeadsData() {
 
@@ -18,7 +19,7 @@ export function LeadsData() {
   const [leadsData, setLeadsData] = useState([]);
 
   const leadData = () => {
-    fetch("http://localhost:9000/lead", {
+    fetch(`${API_URL}/lead`, {
       method: "GET",
     })
       .then((data) => data.json())
@@ -45,7 +46,7 @@ function AddUser({ leadData }) {
   const [hideAdd, setHideAdd] = useState(true);
 
   let AddLeadFn = (newLead) => {
-    fetch("http://localhost:9000/lead", {
+    fetch(`${API_URL}/lead`, {
       method: "POST",
       body: JSON.stringify([newLead]),
       headers: { "Content-Type": "application/json" },
