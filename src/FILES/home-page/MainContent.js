@@ -5,7 +5,7 @@ export function MainContent() {
 
   // DECODING THE USERNAME FROM THE TOKEN
   let decodedObj = GetUserType();
-  const userName = decodedObj.id.name;
+  const userName = decodedObj.id.fname;
 
   // TO CHANGE THE LEADS COUNT IN THE DASHBOARD
   const [TotalLeads, setTotalLeads] = useState(0);

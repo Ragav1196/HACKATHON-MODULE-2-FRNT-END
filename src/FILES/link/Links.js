@@ -12,6 +12,8 @@ import { ProtectedRoute } from "../protected-routes/ProtectedRoute.js";
 import { LoginRoute } from "../protected-routes/loginPage";
 import { AdminRoute } from "../protected-routes/OnlyAdmin";
 import { EditLeadFn } from "../leads/EditLead";
+import { ResetPassword } from "../authentication/ResetPassword";
+import { NewPassword } from "../authentication/NewPassword";
 
 const initialTitle = "HOME";
 
@@ -51,6 +53,12 @@ export function Links() {
           <AdminRoute path="/register">
             <Register />
           </AdminRoute>
+          <Route path="/reset-password">
+            <ResetPassword />
+          </Route>
+          <Route exact path="/new-password/:token/">
+            <NewPassword />
+          </Route>
           <Route path={`/lead/:id`}>
             <Topbar />
             <SidebarData />

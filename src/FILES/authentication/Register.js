@@ -9,7 +9,6 @@ import { context } from "../link/Links";
 import { API_URL } from "../globalConstants";
 
 export function Register() {
-
   // TO SET THE TITLE AFTER GOING BACK FROM THIS PAGE:
   const { setTitle } = useContext(context);
 
@@ -19,10 +18,13 @@ export function Register() {
   let decodedObj = GetUserType();
   const userType = decodedObj.id.userType;
 
-  // TO SHOW SHOW THE ERROR MESSAGE WHEN IT OCCURS
+  // TO SHOW THE ERROR MESSAGE WHEN IT OCCURS
   const [username, setUsername] = useState(false);
   const [userEmail, setUserEmail] = useState(false);
   const [bothCred, setBothCred] = useState(false);
+
+  // TO SHOW MESSAGE WHEN USER ADDED
+  const [userAdded, setUserAdded] = useState(false);
 
   const history = useHistory();
 
@@ -35,10 +37,16 @@ export function Register() {
       },
       body: JSON.stringify(userInfo),
     });
+
     const data = await response.json();
 
     if (data.acknowledged) {
-      history.push("/login");
+      values.fname = "";
+      values.lname = "";
+      values.name = "";
+      values.password = "";
+      values.email = "";
+      setUserAdded(true);
     }
 
     if (data.message === "Username and Email already exists") {
@@ -56,6 +64,8 @@ export function Register() {
 
   // VALIDATIONS
   const formValidationSchema = yup.object({
+    fname: yup.string().required("Please give your first name"),
+    lname: yup.string().required("Please give your last name"),
     name: yup.string().required("Please give your username"),
     password: yup
       .string()
@@ -77,6 +87,8 @@ export function Register() {
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
+        fname: "",
+        lname: "",
         name: "",
         password: "",
         email: "",
@@ -101,148 +113,179 @@ export function Register() {
     }
   }
 
+  console.log(values.userType)
+
   return (
-    <section onClick={() => SetToFalse()}>
-      <article className="backButton">
-        <Button
-          onClick={() => {
-            setTitle(titleReg)
-            history.goBack();
-          }}
-          color="warning"
-          variant="contained"
-        >
-          GO BACK
-        </Button>
-      </article>
-      <article className="register">
-        <article>
-          <img
-            src="https://image.shutterstock.com/z/stock-vector-concept-sign-in-page-on-mobile-screen-desktop-computer-with-login-form-and-sign-in-button-for-web-1145292776.jpg"
-            alt="Register page"
-          />
-          <form onSubmit={handleSubmit}>
-            {username ? (
-              <p className="signInError">Username already exists</p>
-            ) : (
-              ""
-            )}
-            {userEmail ? (
-              <p className="signInError">User Email already exists</p>
-            ) : (
-              ""
-            )}
-            {bothCred ? (
-              <p className="signInError">Username and Email already exists</p>
-            ) : (
-              ""
-            )}
-            <TextField
-              className="input"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              name="name"
-              type={"text"}
-              value={values.name}
-              label="Name"
-              variant="outlined"
-              placeholder="Enter your name"
-              helperText={errors.name && touched.name && errors.name}
-              error={errors.name && touched.name}
+    <section>
+      <section onClick={() => SetToFalse()}>
+        <article className="backButton">
+          <Button
+            onClick={() => {
+              setTitle(titleReg);
+              history.goBack();
+            }}
+            color="warning"
+            variant="contained"
+          >
+            GO BACK
+          </Button>
+        </article>
+        <article className="register">
+          <article onClick={() => setUserAdded(false)}>
+            <img
+              src="https://image.shutterstock.com/z/stock-vector-concept-sign-in-page-on-mobile-screen-desktop-computer-with-login-form-and-sign-in-button-for-web-1145292776.jpg"
+              alt="Register page"
             />
-            <TextField
-              className="input"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              name="password"
-              type={"password"}
-              value={values.password}
-              label="Password"
-              variant="outlined"
-              placeholder="Enter your password"
-              helperText={
-                errors.password && touched.password && errors.password
-              }
-              error={errors.password && touched.password}
-            />
-            <TextField
-              className="input"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              name="email"
-              type={"email"}
-              value={values.email}
-              label="E-mail"
-              variant="outlined"
-              placeholder="Enter your E-mail"
-              helperText={errors.email && touched.email && errors.email}
-              error={errors.email && touched.email}
-            />
-            <div className="RegRadioBtn">
-              <p>Select user role:</p>
-              {userType === "admin" ? (
+            <form onSubmit={handleSubmit}>
+              {username ? (
+                <p className="signInError">Username already exists</p>
+              ) : (
+                ""
+              )}
+              {userEmail ? (
+                <p className="signInError">User Email already exists</p>
+              ) : (
+                ""
+              )}
+              {bothCred ? (
+                <p className="signInError">Username and Email already exists</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                className="input"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="fname"
+                type={"text"}
+                value={values.fname}
+                label="First Name"
+                variant="outlined"
+                placeholder="Enter your first name"
+                helperText={errors.fname && touched.fname && errors.fname}
+                error={errors.fname && touched.fname}
+              />
+              <TextField
+                className="input"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="lname"
+                type={"text"}
+                value={values.lname}
+                label="Last Name"
+                variant="outlined"
+                placeholder="Enter your last name"
+                helperText={errors.lname && touched.lname && errors.lname}
+                error={errors.lname && touched.lname}
+              />
+              <TextField
+                className="input"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="name"
+                type={"text"}
+                value={values.name}
+                label="Name"
+                variant="outlined"
+                placeholder="Enter your name"
+                helperText={errors.name && touched.name && errors.name}
+                error={errors.name && touched.name}
+              />
+              <TextField
+                className="input"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="password"
+                type={"password"}
+                value={values.password}
+                label="Password"
+                variant="outlined"
+                placeholder="Enter your password"
+                helperText={
+                  errors.password && touched.password && errors.password
+                }
+                error={errors.password && touched.password}
+              />
+              <TextField
+                className="input"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="email"
+                type={"email"}
+                value={values.email}
+                label="E-mail"
+                variant="outlined"
+                placeholder="Enter your E-mail"
+                helperText={errors.email && touched.email && errors.email}
+                error={errors.email && touched.email}
+              />
+              <div className="RegRadioBtn">
+                <p>Select user role:</p>
+                {userType === "admin" ? (
+                  <div>
+                    <label>
+                      <input
+                        type="radio"
+                        name="userType"
+                        id="admin"
+                        required
+                        value="admin"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      Admin
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="userType"
+                        value="manager"
+                        required
+                        id="manager"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      Manager
+                    </label>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div>
                   <label>
                     <input
                       type="radio"
                       name="userType"
-                      id="admin"
+                      id="senior-employee"
                       required
-                      value="admin"
+                      value="senior-employee"
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    Admin
+                    Senior Employee
                   </label>
                   <label>
                     <input
                       type="radio"
                       name="userType"
-                      value="manager"
+                      id="junior-employee"
                       required
-                      id="manager"
+                      value="junior-employee"
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    Manager
+                    Junior Employee
                   </label>
                 </div>
-              ) : (
-                ""
-              )}
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    name="userType"
-                    id="senior-employee"
-                    required
-                    value="senior-employee"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  Senior Employee
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="userType"
-                    id="junior-employee"
-                    required
-                    value="junior-employee"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  Junior Employee
-                </label>
               </div>
-            </div>
-            <Button type="submit" variant="contained">
-              SUBMIT
-            </Button>
-          </form>
+              <Button type="submit" variant="contained">
+                SUBMIT
+              </Button>
+            </form>
+          </article>
+          {userAdded ? <p className="userAdded">USER ADDED</p> : ""}
         </article>
-      </article>
+      </section>
     </section>
   );
 }

@@ -32,9 +32,9 @@ export function Login() {
         })
           .then((data) => data.json())
           .then((data) => localStorage.setItem("leadCount", data.length))
-          .then((data) => history.push("/home"))
+          .then((data) => history.push("/home"));
       };
-      leadData();      
+      leadData();
     }
 
     if (data.message === "Invalid credentials") {
@@ -51,8 +51,8 @@ export function Login() {
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
-        name: "Ragavendiran",
-        password: "Ragav1@ragav",
+        name: "Ragav1196",
+        password: "Ragav123@",
       },
       validationSchema: formValidationSchema,
 
@@ -97,7 +97,12 @@ export function Login() {
             helperText={errors.password && touched.password && errors.password}
             error={errors.password && touched.password}
           />
-          <p className="forgotPwd">Forgot password?</p>
+          <p
+            onClick={() => history.push("/reset-password")}
+            className="forgotPwd"
+          >
+            Forgot password?
+          </p>
           <Button type="submit" variant="contained">
             SIGN IN
           </Button>

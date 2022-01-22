@@ -492,12 +492,19 @@
   padding: 20px;
 }
 
+.userAdded {
+  font-size: 40px;
+  font-weight: bold;
+  color: green;
+}
+
 .register {
   background-color: white;
   display: flex;
   height: 89vh;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  flex-direction: column;
 }
 
 .register * {

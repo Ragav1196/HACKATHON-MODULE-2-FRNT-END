@@ -53,9 +53,8 @@ export function Topbar() {
 function UserSlideMenu({ userSlideMenu, setLoginButton }) {
   // DECODING THE USERNAME AND TYPE FROM THE TOKEN
   let decodedObj = GetUserType();
-  console.log(decodedObj)
   const userType = decodedObj.id.userType;
-  const userName = decodedObj.id.name;
+  const userName = decodedObj.id.fname;
 
   const UserType = userType.toUpperCase();
 
