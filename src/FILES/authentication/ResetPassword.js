@@ -1,11 +1,19 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-// import { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { API_URL } from "../globalConstants";
+import { useHistory } from "react-router-dom";
 
 export function ResetPassword() {
+  // TO HIDE THE POPUP:
+  const [popup, setPopup] = useState(false);
+
+  const styles = { height: popup ? "40px" : "0px" };
+
+  const history = useHistory();
+
   async function userLogin(userInfo) {
     await fetch(`${API_URL}/reset-password`, {
       method: "POST",
@@ -14,11 +22,20 @@ export function ResetPassword() {
       },
       body: JSON.stringify(userInfo),
     });
+    setPopup(true);
+    setTimeout(() => setPopup(false), 5000);
+    setTimeout(() => history.push("/login"), 5700);
   }
 
   // VALIDATIONS
   const formValidationSchema = yup.object({
-    email: yup.string().required("Please give your username"),
+    email: yup
+      .string()
+      .required("Please provide your E-mail")
+      .matches(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "Email pattern doesn't match"
+      ),
   });
 
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
@@ -34,31 +51,39 @@ export function ResetPassword() {
     });
 
   return (
-    <section className="login">
-      <article>
-        <img
-          src="https://image.shutterstock.com/z/stock-vector-concept-sign-in-page-on-mobile-screen-desktop-computer-with-login-form-and-sign-in-button-for-web-1145292776.jpg"
-          alt="reset-password page"
-        />
-        <form onSubmit={handleSubmit}>
-          <TextField
-            className="input"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            name="email"
-            type={"text"}
-            value={values.email}
-            label="email"
-            variant="outlined"
-            placeholder="Enter your E-mail"
-            helperText={errors.email && touched.email && errors.email}
-            error={errors.email && touched.email}
-          />
-          <Button type="submit" variant="contained">
-            RESET PASSWORD
-          </Button>
-        </form>
+    <section>
+      <article style={styles} className="rstPwdPopUpCtnr">
+        <p className="rstPwdPopUp">
+          Check your E-mail for password reset link. you will now be redirected
+          to login page
+        </p>
       </article>
+      <section className="login">
+        <article>
+          <img
+            src="https://image.shutterstock.com/z/stock-vector-concept-sign-in-page-on-mobile-screen-desktop-computer-with-login-form-and-sign-in-button-for-web-1145292776.jpg"
+            alt="reset-password page"
+          />
+          <form onSubmit={handleSubmit}>
+            <TextField
+              className="input"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              name="email"
+              type={"text"}
+              value={values.email}
+              label="email"
+              variant="outlined"
+              placeholder="Enter your E-mail"
+              helperText={errors.email && touched.email && errors.email}
+              error={errors.email && touched.email}
+            />
+            <Button type="submit" variant="contained">
+              RESET PASSWORD
+            </Button>
+          </form>
+        </article>
+      </section>
     </section>
   );
 }

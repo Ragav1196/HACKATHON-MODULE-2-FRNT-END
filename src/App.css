@@ -633,3 +633,20 @@
     margin-left: 45px;
   }
 }
+
+/* RESET PASSWORD: */
+.rstPwdPopUpCtnr{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #90b390;
+  transition: all 0.6s;
+}
+
+.rstPwdPopUp{
+  color: white;
+  margin: 0px;
+  padding: 10px;
+  font-size: 22px;
+  font-weight: 100;
+}

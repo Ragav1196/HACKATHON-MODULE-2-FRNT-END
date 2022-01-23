@@ -56,7 +56,7 @@ export function Links() {
           <Route path="/reset-password">
             <ResetPassword />
           </Route>
-          <Route exact path="/new-password/:token/">
+          <Route exact path="/new-password/">
             <NewPassword />
           </Route>
           <Route path={`/lead/:id`}>

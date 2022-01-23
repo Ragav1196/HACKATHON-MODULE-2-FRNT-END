@@ -66,7 +66,7 @@ export function Register() {
   const formValidationSchema = yup.object({
     fname: yup.string().required("Please give your first name"),
     lname: yup.string().required("Please give your last name"),
-    name: yup.string().required("Please give your username"),
+    username: yup.string().required("Please give your username"),
     password: yup
       .string()
       .required("Please provide password")
@@ -89,7 +89,7 @@ export function Register() {
       initialValues: {
         fname: "",
         lname: "",
-        name: "",
+        username: "",
         password: "",
         email: "",
         userType: "",
@@ -182,14 +182,14 @@ export function Register() {
                 className="input"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                name="name"
+                name="username"
                 type={"text"}
-                value={values.name}
-                label="Name"
+                value={values.username}
+                label="Username"
                 variant="outlined"
-                placeholder="Enter your name"
-                helperText={errors.name && touched.name && errors.name}
-                error={errors.name && touched.name}
+                placeholder="Enter your username"
+                helperText={errors.username && touched.username && errors.username}
+                error={errors.username && touched.username}
               />
               <TextField
                 className="input"
