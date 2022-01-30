@@ -14,6 +14,7 @@ import { AdminRoute } from "../protected-routes/OnlyAdmin";
 import { EditLeadFn } from "../leads/EditLead";
 import { ResetPassword } from "../authentication/ResetPassword";
 import { NewPassword } from "../authentication/NewPassword";
+import { PwdRoute } from "../protected-routes/NewPwdChng";
 
 const initialTitle = "HOME";
 
@@ -56,9 +57,9 @@ export function Links() {
           <Route path="/reset-password">
             <ResetPassword />
           </Route>
-          <Route exact path="/new-password/">
+          <PwdRoute exact path="/new-password/:token">
             <NewPassword />
-          </Route>
+          </PwdRoute>
           <Route path={`/lead/:id`}>
             <Topbar />
             <SidebarData />

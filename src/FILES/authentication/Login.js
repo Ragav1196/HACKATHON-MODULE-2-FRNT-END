@@ -12,6 +12,14 @@ export function Login() {
   // TO GIVE ERROR WHEN CREDENTIALS IS INVALID:
   const [loginError, setLoginError] = useState(false);
 
+  // TO GIVE ERROR FOR TOKEN EXPIRATION:
+  const isTokenExpired = localStorage.getItem("tokenExpired");
+  const [tknExp, setTknExp] = useState(isTokenExpired);
+  setTimeout(() => {
+    localStorage.removeItem("tokenExpired");
+    setTknExp(false);
+  }, 5000);
+
   // CHECKING THE SERVER STORAGE TO VERIFY THE CREDENTIALS
   async function userLogin(userInfo) {
     const response = await fetch(`${API_URL}/login`, {
@@ -63,6 +71,15 @@ export function Login() {
 
   return (
     <section onClick={() => setLoginError(false)} className="login">
+      <div className="tokenExpPopupCntr">
+        {tknExp ? (
+          <p className="tokenExpPopup">
+            TOKEN IS EXPIRED. RETRY PASSWORD CHANGE
+          </p>
+        ) : (
+          ""
+        )}
+      </div>
       <article>
         <img
           src="https://image.shutterstock.com/z/stock-vector-concept-sign-in-page-on-mobile-screen-desktop-computer-with-login-form-and-sign-in-button-for-web-1145292776.jpg"
@@ -101,7 +118,7 @@ export function Login() {
             onClick={() => history.push("/reset-password")}
             className="forgotPwd"
           >
-            Forgot password?
+            Forgot password ?
           </p>
           <Button type="submit" variant="contained">
             SIGN IN
@@ -111,6 +128,3 @@ export function Login() {
     </section>
   );
 }
-
-// ${API_URL}/login
-// ${API_URL}/login

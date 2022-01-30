@@ -29,6 +29,7 @@ export function NewPassword() {
     setPopup(true);
     setTimeout(() => setPopup(false), 5000);
     setTimeout(() => history.push("/login"), 5700);
+    localStorage.removeItem("tokenExpire");
   }
 
   // VALIDATIONS

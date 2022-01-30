@@ -473,6 +473,26 @@
   margin-bottom: 20px;
 }
 
+.tokenExpPopupCntr {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #90b390;
+  transition: all 0.6s;
+  position: absolute;
+  top: 0px;
+  width: 100vw;
+}
+
+.tokenExpPopup {
+  text-align: center;
+  color: white;
+  margin: 0px;
+  padding: 10px;
+  font-size: 22px;
+  font-weight: 100;
+}
+
 @media (max-width: 768px) {
   .login > article {
     flex-direction: column;
@@ -635,7 +655,7 @@
 }
 
 /* RESET PASSWORD: */
-.rstPwdPopUpCtnr{
+.rstPwdPopUpCtnr {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -643,7 +663,7 @@
   transition: all 0.6s;
 }
 
-.rstPwdPopUp{
+.rstPwdPopUp {
   color: white;
   margin: 0px;
   padding: 10px;

@@ -15,13 +15,16 @@ export function ResetPassword() {
   const history = useHistory();
 
   async function userLogin(userInfo) {
-    await fetch(`${API_URL}/reset-password`, {
+    const response = await fetch(`${API_URL}/reset-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userInfo),
     });
+    const rstPwdCred = await response.json();
+    localStorage.setItem("tokenExpire", rstPwdCred.tokenExpire);
+
     setPopup(true);
     setTimeout(() => setPopup(false), 5000);
     setTimeout(() => history.push("/login"), 5700);
