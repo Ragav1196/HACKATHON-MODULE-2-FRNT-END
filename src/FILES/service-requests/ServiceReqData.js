@@ -1,4 +1,4 @@
-import { Leads } from "./Leads";
+import { ServiceReq } from "./ServiceReq";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
@@ -9,46 +9,46 @@ import * as yup from "yup";
 import { GetUserType } from "../authentication/UserType";
 import { API_URL } from "../globalConstants";
 
-export function LeadsData() {
+export function ServiceReqData() {
 
   // DECODING THE USERTYPE FROM THE TOKEN
   let decodedObj = GetUserType();
   const userType = decodedObj.id.userType;
 
-  // AFTER GTTING THE LEADSDATA STORING IT IN A VARIABLE 
-  const [leadsData, setLeadsData] = useState([]);
+  // AFTER GTTING THE SERVICE REQUESTS STORING IT IN A VARIABLE 
+  const [serviceReqData, setServiceReqData] = useState([]);
 
-  const leadData = () => {
-    fetch(`${API_URL}/lead`, {
+  const serviceReqDataFn = () => {
+    fetch(`${API_URL}/service-request`, {
       method: "GET",
     })
       .then((data) => data.json())
-      .then((data) => setLeadsData(data));
+      .then((data) => setServiceReqData(data));
   };
 
-  useEffect(() => leadData(), []);
+  useEffect(() => serviceReqDataFn(), []);
 
   return (
     <section className="leadsContainer">
-      {userType !== "junior-employee" ? <AddUser leadData={leadData} /> : ""}
+      {userType !== "junior-employee" ? <AddUser serviceReqDataFn={serviceReqDataFn} /> : ""}
       <article className="leadsData">
-        {leadsData.map((data, index) => (
-          <Leads data={data} leadData={leadData} key={index} />
+        {serviceReqData.map((data, index) => (
+          <ServiceReq data={data} serviceReqDataFn={serviceReqDataFn} key={index} />
         ))}
       </article>
     </section>
   );
 }
 
-function AddUser({ leadData }) {
+function AddUser({ serviceReqDataFn }) {
   // TO HIDE INPUT FIELD
   const [show, setShow] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
 
-  let AddLeadFn = (newLead) => {
-    fetch(`${API_URL}/lead`, {
+  let AddServiceReqFn = (newServiceReq) => {
+    fetch(`${API_URL}/service-request`, {
       method: "POST",
-      body: JSON.stringify([newLead]),
+      body: JSON.stringify([newServiceReq]),
       headers: { "Content-Type": "application/json" },
     }).then(() => {
       values.name = "";
@@ -56,12 +56,12 @@ function AddUser({ leadData }) {
       values.company = "";
       values.email = "";
       values.title = "";
-      values.leadSource = "";
+      values.serviceReqSource = "";
       values.picture =
         "https://i0.wp.com/sguru.org/wp-content/uploads/2017/06/cool-anonymous-profile-pictures-15.jpg?resize=460%2C458&ssl=1";
       setShow(false);
       setHideAdd(true);
-      leadData();
+      serviceReqDataFn();
     });
   };
 
@@ -71,7 +71,7 @@ function AddUser({ leadData }) {
     company: yup.string().required("Client company name is required"),
     email: yup.string().required("Client Email is required"),
     title: yup.string().required("Client title is required"),
-    leadSource: yup.string().required("Client lead source is required"),
+    serviceReqSource: yup.string().required("Client service request source is required"),
     picture: yup
       .string()
       .required("URL for client is required or go with default picture")
@@ -89,15 +89,15 @@ function AddUser({ leadData }) {
         company: "",
         email: "",
         title: "",
-        leadSource: "",
+        serviceReqSource: "",
         picture:
           "https://i0.wp.com/sguru.org/wp-content/uploads/2017/06/cool-anonymous-profile-pictures-15.jpg?resize=460%2C458&ssl=1",
       },
 
       validationSchema: formValidationSchema,
 
-      onSubmit: (newLead) => {
-        AddLeadFn(newLead);
+      onSubmit: (newServiceReq) => {
+        AddServiceReqFn(newServiceReq);
       },
     });
 
@@ -172,18 +172,18 @@ function AddUser({ leadData }) {
               error={errors.title && touched.title}
             />
             <TextField
-              value={values.leadSource}
+              value={values.serviceReqSource}
               onChange={handleChange}
               onBlur={handleBlur}
               type="text"
-              name="leadSource"
+              name="serviceReqSource"
               id="outlined-basic"
               variant="outlined"
-              placeholder="Enter lead source"
+              placeholder="Enter service request source"
               helperText={
-                errors.leadSource && touched.leadSource && errors.leadSource
+                errors.serviceReqSource && touched.serviceReqSource && errors.serviceReqSource
               }
-              error={errors.leadSource && touched.leadSource}
+              error={errors.serviceReqSource && touched.serviceReqSource}
             />
             <TextField
               value={values.picture}

@@ -2,7 +2,6 @@ import HomeIcon from "@mui/icons-material/Home";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
-import BusinessIcon from "@mui/icons-material/Business";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import CallIcon from "@mui/icons-material/Call";
 import ArticleIcon from "@mui/icons-material/Article";
@@ -11,6 +10,7 @@ import CampaignIcon from "@mui/icons-material/Campaign";
 import FormatLineSpacingIcon from "@mui/icons-material/FormatLineSpacing";
 import { SidebarContent } from "./SidebarContent";
 import { GetUserType } from "../../authentication/UserType";
+import PersonPinCircleIcon from "@mui/icons-material/PersonPinCircle";
 
 export function SidebarData({ setTitle }) {
   // DECODING THE USERTYPE FROM THE TOKEN
@@ -49,11 +49,13 @@ export function SidebarData({ setTitle }) {
       icon: <ContactPhoneIcon />,
       fieldName: "Contacts",
       addSymbols: "+",
+      onclick: "/contacts",
     },
     {
-      icon: <BusinessIcon />,
-      fieldName: "Companies",
+      icon: <PersonPinCircleIcon />,
+      fieldName: "Service Requests",
       addSymbols: "+",
+      onclick: "/service-request",
     },
     {
       icon: <LocalAtmIcon />,

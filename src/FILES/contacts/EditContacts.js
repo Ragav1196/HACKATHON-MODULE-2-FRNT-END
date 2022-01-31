@@ -7,23 +7,23 @@ import { useParams } from "react-router-dom";
 import * as yup from "yup";
 import { API_URL } from "../globalConstants";
 
-export function EditLeadFn() {
+export function EditContactsFn() {
   const { id } = useParams();
 
-  const [lead, setLead] = useState(null);
+  const [contacts, setContacts] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_URL}/lead/${id}`, {
+    fetch(`${API_URL}/contacts/${id}`, {
       method: "GET",
     })
       .then((data) => data.json())
-      .then((data) => setLead(data));
+      .then((data) => setContacts(data));
   }, [id]);
 
-  return lead ? <EditLead lead={lead} id={id} /> : "";
+  return contacts ? <EditContacts contacts={contacts} id={id} /> : "";
 }
 
-export function EditLead({ lead, id }) {
+export function EditContacts({ contacts, id }) {
   const history = useHistory();
 
   const formValidationSchema = yup.object({
@@ -32,7 +32,9 @@ export function EditLead({ lead, id }) {
     company: yup.string().required("Client company name is required"),
     email: yup.string().required("Client Email is required"),
     title: yup.string().required("Client title is required"),
-    leadSource: yup.string().required("Client lead source is required"),
+    contactsSource: yup
+      .string()
+      .required("Client contacts source is required"),
     picture: yup
       .string()
       .required("URL for client is required or go with default picture")
@@ -42,35 +44,35 @@ export function EditLead({ lead, id }) {
       ),
   });
 
-  let dataFrmDB = (updatedLead) => {
-    fetch(`${API_URL}/lead/${id}`, {
+  let dataFrmDB = (updatedContacts) => {
+    fetch(`${API_URL}/contacts/${id}`, {
       method: "PUT",
-      body: JSON.stringify(updatedLead),
+      body: JSON.stringify(updatedContacts),
       headers: { "Content-Type": "application/json" },
-    }).then(() => history.push("/lead"));
+    }).then(() => history.push("/contacts"));
   };
 
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
-        name: lead.name,
-        Phone: lead.Phone,
-        company: lead.company,
-        email: lead.email,
-        title: lead.title,
-        leadSource: lead.leadSource,
-        picture: lead.picture,
+        name: contacts.name,
+        Phone: contacts.Phone,
+        company: contacts.company,
+        email: contacts.email,
+        title: contacts.title,
+        contactsSource: contacts.contactsSource,
+        picture: contacts.picture,
       },
 
       validationSchema: formValidationSchema,
 
-      onSubmit: (updatedLead) => {
-        dataFrmDB(updatedLead);
+      onSubmit: (updatedContacts) => {
+        dataFrmDB(updatedContacts);
       },
     });
   return (
     <section className="ElContainer">
-      <p>EDIT LEADS</p>
+      <p>EDIT CONTACTS</p>
       <form onSubmit={handleSubmit} className="ElForm">
         <TextField
           value={values.name}
@@ -133,18 +135,20 @@ export function EditLead({ lead, id }) {
           error={errors.title && touched.title}
         />
         <TextField
-          value={values.leadSource}
+          value={values.contactsSource}
           onChange={handleChange}
           onBlur={handleBlur}
           type="text"
-          name="leadSource"
+          name="contactsSource"
           id="outlined-basic"
           variant="outlined"
-          placeholder="Enter lead source"
+          placeholder="Enter contacts source"
           helperText={
-            errors.leadSource && touched.leadSource && errors.leadSource
+            errors.contactsSource &&
+            touched.contactsSource &&
+            errors.contactsSource
           }
-          error={errors.leadSource && touched.leadSource}
+          error={errors.contactsSource && touched.contactsSource}
         />
         <TextField
           value={values.picture}
@@ -158,10 +162,9 @@ export function EditLead({ lead, id }) {
           helperText={errors.picture && touched.picture && errors.picture}
           error={errors.picture && touched.picture}
         />
-        <article >
+        <article>
           <Button
             type="submit"
-            // className="leadsSaveBtn"
             variant="outlined"
             color="success"
           >

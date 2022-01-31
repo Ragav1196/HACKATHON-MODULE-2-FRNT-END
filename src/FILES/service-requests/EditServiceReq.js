@@ -7,23 +7,23 @@ import { useParams } from "react-router-dom";
 import * as yup from "yup";
 import { API_URL } from "../globalConstants";
 
-export function EditLeadFn() {
+export function EditServiceReqFn() {
   const { id } = useParams();
 
-  const [lead, setLead] = useState(null);
+  const [serviceReq, setServiceReq] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_URL}/lead/${id}`, {
+    fetch(`${API_URL}/service-request/${id}`, {
       method: "GET",
     })
       .then((data) => data.json())
-      .then((data) => setLead(data));
+      .then((data) => setServiceReq(data));
   }, [id]);
 
-  return lead ? <EditLead lead={lead} id={id} /> : "";
+  return serviceReq ? <EditServiceReq serviceReq={serviceReq} id={id} /> : "";
 }
 
-export function EditLead({ lead, id }) {
+export function EditServiceReq({ serviceReq, id }) {
   const history = useHistory();
 
   const formValidationSchema = yup.object({
@@ -32,7 +32,9 @@ export function EditLead({ lead, id }) {
     company: yup.string().required("Client company name is required"),
     email: yup.string().required("Client Email is required"),
     title: yup.string().required("Client title is required"),
-    leadSource: yup.string().required("Client lead source is required"),
+    serviceReqSource: yup
+      .string()
+      .required("Client service request source is required"),
     picture: yup
       .string()
       .required("URL for client is required or go with default picture")
@@ -42,35 +44,35 @@ export function EditLead({ lead, id }) {
       ),
   });
 
-  let dataFrmDB = (updatedLead) => {
-    fetch(`${API_URL}/lead/${id}`, {
+  let dataFrmDB = (updatedServiceReq) => {
+    fetch(`${API_URL}/service-request/${id}`, {
       method: "PUT",
-      body: JSON.stringify(updatedLead),
+      body: JSON.stringify(updatedServiceReq),
       headers: { "Content-Type": "application/json" },
-    }).then(() => history.push("/lead"));
+    }).then(() => history.push("/service-request"));
   };
 
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
-        name: lead.name,
-        Phone: lead.Phone,
-        company: lead.company,
-        email: lead.email,
-        title: lead.title,
-        leadSource: lead.leadSource,
-        picture: lead.picture,
+        name: serviceReq.name,
+        Phone: serviceReq.Phone,
+        company: serviceReq.company,
+        email: serviceReq.email,
+        title: serviceReq.title,
+        serviceReqSource: serviceReq.serviceReqSource,
+        picture: serviceReq.picture,
       },
 
       validationSchema: formValidationSchema,
 
-      onSubmit: (updatedLead) => {
-        dataFrmDB(updatedLead);
+      onSubmit: (updatedServiceReq) => {
+        dataFrmDB(updatedServiceReq);
       },
     });
   return (
     <section className="ElContainer">
-      <p>EDIT LEADS</p>
+      <p>EDIT SERVICE REQUESTS</p>
       <form onSubmit={handleSubmit} className="ElForm">
         <TextField
           value={values.name}
@@ -133,18 +135,20 @@ export function EditLead({ lead, id }) {
           error={errors.title && touched.title}
         />
         <TextField
-          value={values.leadSource}
+          value={values.serviceReqSource}
           onChange={handleChange}
           onBlur={handleBlur}
           type="text"
-          name="leadSource"
+          name="serviceReqSource"
           id="outlined-basic"
           variant="outlined"
-          placeholder="Enter lead source"
+          placeholder="Enter service request source"
           helperText={
-            errors.leadSource && touched.leadSource && errors.leadSource
+            errors.serviceReqSource &&
+            touched.serviceReqSource &&
+            errors.serviceReqSource
           }
-          error={errors.leadSource && touched.leadSource}
+          error={errors.serviceReqSource && touched.serviceReqSource}
         />
         <TextField
           value={values.picture}
@@ -158,10 +162,9 @@ export function EditLead({ lead, id }) {
           helperText={errors.picture && touched.picture && errors.picture}
           error={errors.picture && touched.picture}
         />
-        <article >
+        <article>
           <Button
             type="submit"
-            // className="leadsSaveBtn"
             variant="outlined"
             color="success"
           >

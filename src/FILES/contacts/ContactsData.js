@@ -1,4 +1,4 @@
-import { Leads } from "./Leads";
+import { Contacts } from "./Contacts";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
@@ -9,46 +9,49 @@ import * as yup from "yup";
 import { GetUserType } from "../authentication/UserType";
 import { API_URL } from "../globalConstants";
 
-export function LeadsData() {
-
+export function ContactsData() {
   // DECODING THE USERTYPE FROM THE TOKEN
   let decodedObj = GetUserType();
   const userType = decodedObj.id.userType;
 
-  // AFTER GTTING THE LEADSDATA STORING IT IN A VARIABLE 
-  const [leadsData, setLeadsData] = useState([]);
+  // AFTER GTTING THE SERVICE REQUESTS STORING IT IN A VARIABLE
+  const [contactsData, setContactsData] = useState([]);
 
-  const leadData = () => {
-    fetch(`${API_URL}/lead`, {
+  const contactsDataFn = () => {
+    fetch(`${API_URL}/contacts`, {
       method: "GET",
     })
       .then((data) => data.json())
-      .then((data) => setLeadsData(data));
+      .then((data) => setContactsData(data));
   };
 
-  useEffect(() => leadData(), []);
+  useEffect(() => contactsDataFn(), []);
 
   return (
     <section className="leadsContainer">
-      {userType !== "junior-employee" ? <AddUser leadData={leadData} /> : ""}
+      {userType !== "junior-employee" ? (
+        <AddUser contactsDataFn={contactsDataFn} />
+      ) : (
+        ""
+      )}
       <article className="leadsData">
-        {leadsData.map((data, index) => (
-          <Leads data={data} leadData={leadData} key={index} />
+        {contactsData.map((data, index) => (
+          <Contacts data={data} contactsDataFn={contactsDataFn} key={index} />
         ))}
       </article>
     </section>
   );
 }
 
-function AddUser({ leadData }) {
+function AddUser({ contactsDataFn }) {
   // TO HIDE INPUT FIELD
   const [show, setShow] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
 
-  let AddLeadFn = (newLead) => {
-    fetch(`${API_URL}/lead`, {
+  let AddContactsFn = (newContacts) => {
+    fetch(`${API_URL}/contacts`, {
       method: "POST",
-      body: JSON.stringify([newLead]),
+      body: JSON.stringify([newContacts]),
       headers: { "Content-Type": "application/json" },
     }).then(() => {
       values.name = "";
@@ -56,12 +59,12 @@ function AddUser({ leadData }) {
       values.company = "";
       values.email = "";
       values.title = "";
-      values.leadSource = "";
+      values.contactsSource = "";
       values.picture =
         "https://i0.wp.com/sguru.org/wp-content/uploads/2017/06/cool-anonymous-profile-pictures-15.jpg?resize=460%2C458&ssl=1";
       setShow(false);
       setHideAdd(true);
-      leadData();
+      contactsDataFn();
     });
   };
 
@@ -71,7 +74,9 @@ function AddUser({ leadData }) {
     company: yup.string().required("Client company name is required"),
     email: yup.string().required("Client Email is required"),
     title: yup.string().required("Client title is required"),
-    leadSource: yup.string().required("Client lead source is required"),
+    contactsSource: yup
+      .string()
+      .required("Client contacts source is required"),
     picture: yup
       .string()
       .required("URL for client is required or go with default picture")
@@ -89,15 +94,15 @@ function AddUser({ leadData }) {
         company: "",
         email: "",
         title: "",
-        leadSource: "",
+        contactsSource: "",
         picture:
           "https://i0.wp.com/sguru.org/wp-content/uploads/2017/06/cool-anonymous-profile-pictures-15.jpg?resize=460%2C458&ssl=1",
       },
 
       validationSchema: formValidationSchema,
 
-      onSubmit: (newLead) => {
-        AddLeadFn(newLead);
+      onSubmit: (newContacts) => {
+        AddContactsFn(newContacts);
       },
     });
 
@@ -172,18 +177,20 @@ function AddUser({ leadData }) {
               error={errors.title && touched.title}
             />
             <TextField
-              value={values.leadSource}
+              value={values.contactsSource}
               onChange={handleChange}
               onBlur={handleBlur}
               type="text"
-              name="leadSource"
+              name="contactsSource"
               id="outlined-basic"
               variant="outlined"
-              placeholder="Enter lead source"
+              placeholder="Enter contacts source"
               helperText={
-                errors.leadSource && touched.leadSource && errors.leadSource
+                errors.contactsSource &&
+                touched.contactsSource &&
+                errors.contactsSource
               }
-              error={errors.leadSource && touched.leadSource}
+              error={errors.contactsSource && touched.contactsSource}
             />
             <TextField
               value={values.picture}

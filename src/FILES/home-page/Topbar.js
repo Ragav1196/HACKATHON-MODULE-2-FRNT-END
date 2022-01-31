@@ -82,6 +82,8 @@ function UserSlideMenu({ userSlideMenu, setLoginButton }) {
             onClick={() => {
               localStorage.removeItem("leadCount");
               localStorage.removeItem("Token");
+              localStorage.removeItem("serviceReqCount");
+              localStorage.removeItem("contactsCount");
               history.push("/");
             }}
           >

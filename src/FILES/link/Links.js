@@ -15,6 +15,10 @@ import { EditLeadFn } from "../leads/EditLead";
 import { ResetPassword } from "../authentication/ResetPassword";
 import { NewPassword } from "../authentication/NewPassword";
 import { PwdRoute } from "../protected-routes/NewPwdChng";
+import { ServiceReqData } from "../service-requests/ServiceReqData";
+import { EditServiceReqFn } from "../service-requests/EditServiceReq";
+import { ContactsData } from "../contacts/ContactsData";
+import { EditContactsFn } from "../contacts/EditContacts";
 
 const initialTitle = "HOME";
 
@@ -36,35 +40,71 @@ export function Links() {
     <context.Provider value={obj}>
       <>
         <Switch>
+          {/* HOME */}
           <ProtectedRoute path="/home">
             <Topbar />
             <SidebarData />
             <MainContent />
           </ProtectedRoute>
+
+          {/* LEADS */}
           <ProtectedRoute exact path="/lead">
             <Topbar />
             <SidebarData />
             <LeadsData />
           </ProtectedRoute>
-          <ProtectedRoute exact path="/calendar">
-            <Topbar />
-            <SidebarData />
-            <Calendarx />
-          </ProtectedRoute>
-          <AdminRoute path="/register">
-            <Register />
-          </AdminRoute>
-          <Route path="/reset-password">
-            <ResetPassword />
-          </Route>
-          <PwdRoute exact path="/new-password/:token">
-            <NewPassword />
-          </PwdRoute>
           <Route path={`/lead/:id`}>
             <Topbar />
             <SidebarData />
             <EditLeadFn />
           </Route>
+
+          {/* SERVICE REQUESTS */}
+          <ProtectedRoute exact path="/service-request">
+            <Topbar />
+            <SidebarData />
+            <ServiceReqData />
+          </ProtectedRoute>
+          <Route path={`/service-request/:id`}>
+            <Topbar />
+            <SidebarData />
+            <EditServiceReqFn />
+          </Route>
+
+          {/* CONTACTS     */}
+          <ProtectedRoute exact path="/contacts">
+            <Topbar />
+            <SidebarData />
+            <ContactsData />
+          </ProtectedRoute>
+          <Route path={`/contacts/:id`}>
+            <Topbar />
+            <SidebarData />
+            <EditContactsFn />
+          </Route>
+
+          {/* CALENDAR */}
+          <ProtectedRoute exact path="/calendar">
+            <Topbar />
+            <SidebarData />
+            <Calendarx />
+          </ProtectedRoute>
+
+          {/* REGISTER */}
+          <AdminRoute path="/register">
+            <Register />
+          </AdminRoute>
+
+          {/* RESET PASSWORD */}
+          <Route path="/reset-password">
+            <ResetPassword />
+          </Route>
+
+          <PwdRoute exact path="/new-password/:token">
+            <NewPassword />
+          </PwdRoute>
+
+          {/* LOGIN */}
           <Route path="/adminonly">ADMIN ONLY</Route>
           <LoginRoute path="/">
             <Login />

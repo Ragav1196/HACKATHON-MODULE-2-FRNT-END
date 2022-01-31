@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { GetUserType } from "../authentication/UserType";
 import { API_URL } from "../globalConstants";
 
-export function Leads({ data, leadData }) {
+export function ServiceReq({ data, serviceReqDataFn }) {
   const history = useHistory();
 
   // HIDE BUTTONS
@@ -17,12 +17,12 @@ export function Leads({ data, leadData }) {
   let decodedObj = GetUserType();
   const userType = decodedObj.id.userType;
 
-  // TO DELETE A LEAD
-  const deleteLeads = (_id) => {
-    fetch(`${API_URL}/lead/${_id}`, {
+  // TO DELETE A SERVICE REQUEST
+  const deleteServiceReq = (_id) => {
+    fetch(`${API_URL}/service-request/${_id}`, {
       method: "DELETE",
       body: JSON.stringify(),
-    }).then(() => leadData());
+    }).then(() => serviceReqDataFn());
   };
 
   return (
@@ -46,7 +46,7 @@ export function Leads({ data, leadData }) {
               </div>
               <div className="leadsDetail2">
                 <p>Title: {data.title}</p>
-                <p>Lead Source: {data.leadSource}</p>
+                <p>Service Requset Source: {data.serviceReqSource}</p>
               </div>
             </div>
           </article>
@@ -62,7 +62,7 @@ export function Leads({ data, leadData }) {
               {userType !== "junior-employee" ? (
                 <Button
                   onClick={() => {
-                    history.push("/lead/" + data._id);
+                    history.push("/service-request/" + data._id);
                   }}
                   variant="outlined"
                   color="secondary"
@@ -75,7 +75,7 @@ export function Leads({ data, leadData }) {
 
               {userType !== "junior-employee" ? (
                 <Button
-                  onClick={() => deleteLeads(data._id)}
+                  onClick={() => deleteServiceReq(data._id)}
                   variant="outlined"
                   color="error"
                 >

@@ -33,16 +33,7 @@ export function Login() {
 
     if (data.message === "Successfull login") {
       localStorage.setItem("Token", data.token);
-
-      const leadData = () => {
-        fetch(`${API_URL}/lead`, {
-          method: "GET",
-        })
-          .then((data) => data.json())
-          .then((data) => localStorage.setItem("leadCount", data.length))
-          .then((data) => history.push("/home"));
-      };
-      leadData();
+      history.push("/home");
     }
 
     if (data.message === "Invalid credentials") {
@@ -52,14 +43,14 @@ export function Login() {
 
   // VALIDATIONS
   const formValidationSchema = yup.object({
-    name: yup.string().required("Please give your username"),
+    username: yup.string().required("Please give your username"),
     password: yup.string().required("Please provide password"),
   });
 
   const { handleSubmit, values, handleChange, handleBlur, touched, errors } =
     useFormik({
       initialValues: {
-        name: "Ragav1196",
+        username: "Ragav1196",
         password: "Ragav123@",
       },
       validationSchema: formValidationSchema,
@@ -91,14 +82,14 @@ export function Login() {
             className="input"
             onChange={handleChange}
             onBlur={handleBlur}
-            name="name"
+            name="username"
             type={"text"}
-            value={values.name}
-            label="Name"
+            value={values.username}
+            label="userName"
             variant="outlined"
-            placeholder="Enter your name"
-            helperText={errors.name && touched.name && errors.name}
-            error={errors.name && touched.name}
+            placeholder="Enter your username"
+            helperText={errors.username && touched.username && errors.username}
+            error={errors.username && touched.username}
           />
           <br />
           <TextField

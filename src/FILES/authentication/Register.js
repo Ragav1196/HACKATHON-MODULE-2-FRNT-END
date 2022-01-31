@@ -43,7 +43,7 @@ export function Register() {
     if (data.acknowledged) {
       values.fname = "";
       values.lname = "";
-      values.name = "";
+      values.username = "";
       values.password = "";
       values.email = "";
       setUserAdded(true);

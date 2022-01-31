@@ -1,21 +1,28 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { GetUserType } from "../authentication/UserType";
+import { API_URL } from "../globalConstants";
 
 export function MainContent() {
-
   // DECODING THE USERNAME FROM THE TOKEN
   let decodedObj = GetUserType();
   const userName = decodedObj.id.fname;
 
-  // TO CHANGE THE LEADS COUNT IN THE DASHBOARD
-  const [TotalLeads, setTotalLeads] = useState(0);
+  // TO CHANGE COUNTS OF THE LEADS, SERVICE REQUESTS AND CONTACTS:
 
-  const leadCount = localStorage.getItem("leadCount")  
+  const [counts, setCounts] = useState({});
 
-  useEffect(() => {
-    setTotalLeads(leadCount)
-  }, [leadCount])
-  
+  const Counts = () => {
+    fetch(`${API_URL}/get-counts`, {
+      method: "GET",
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        setCounts(data);
+      });
+  };
+  useEffect(() => Counts(), []);
+
   return (
     <section className="mainContent">
       <article>
@@ -23,17 +30,16 @@ export function MainContent() {
       </article>
       <article>
         <div>
-          <p>Total leads currently</p>
-          <p>{TotalLeads}</p>
+          <p>Total Leads</p>
+          <p>{counts.leadsCount}</p>
         </div>
         <div>
-          <p>Revenue This Month</p>
-          <p>Rs. 35,000.00 ⬆️ 100%</p>
-          <p>Last Month: 0</p>
+          <p>Total Service Requests</p>
+          <p>{counts.serviceReqCount}</p>
         </div>
         <div>
-          <p>Deals Closing This Month</p>
-          <p>10</p>
+          <p>Total Contacts</p>
+          <p>{counts.ContactsCount}</p>
         </div>
         <div>
           <p>Overdue Tasks</p>
