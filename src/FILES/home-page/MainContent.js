@@ -30,34 +30,34 @@ export function MainContent() {
       </article>
       <article>
         <div>
-          <p>Total Leads</p>
+          <p>TOTAL LEADS</p>
           <p>{counts.leadsCount}</p>
         </div>
         <div>
-          <p>Total Service Requests</p>
+          <p>TOTAL SERVICE REQUESTS</p>
           <p>{counts.serviceReqCount}</p>
         </div>
         <div>
-          <p>Total Contacts</p>
+          <p>TOTAL CONTACTS</p>
           <p>{counts.ContactsCount}</p>
         </div>
         <div>
-          <p>Overdue Tasks</p>
-          <p>9</p>
+          <p>TOTAL USERS</p>
+          <p>{counts.usersCount}</p>
         </div>
       </article>
       <article>
         <div>
-          <p>Last 4 Quarter Performance Overview</p>
+          <p>LAST 4 QUARTER PERFORMANCE OVERVIEW </p>
         </div>
         <div>
-          <p>Anomaly In Leads Creation This Quarter</p>
+          <p>ANOMALY IN LEADS CREATION THIS QUARTER</p>
         </div>
         <div>
-          <p>Leads By Source This Month</p>
+          <p>LEADS BY SOURCE THIS MONTH</p>
         </div>
         <div>
-          <p>Anomaly In Deals Closure Amount This Quarter</p>
+          <p>ANOMALY IN DEALS CLOSURE AMOUNT THIS QUARTER</p>
         </div>
       </article>
     </section>

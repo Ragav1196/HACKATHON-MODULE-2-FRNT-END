@@ -113,10 +113,8 @@ export function Register() {
     }
   }
 
-  console.log(values.userType)
-
   return (
-    <section>
+    <section className="regMaincntr">
       <section onClick={() => SetToFalse()}>
         <article className="backButton">
           <Button

@@ -30,7 +30,7 @@ export function ContactsData() {
   return (
     <section className="leadsContainer">
       {userType !== "junior-employee" ? (
-        <AddUser contactsDataFn={contactsDataFn} />
+        <AddContact contactsDataFn={contactsDataFn} />
       ) : (
         ""
       )}
@@ -43,7 +43,7 @@ export function ContactsData() {
   );
 }
 
-function AddUser({ contactsDataFn }) {
+function AddContact({ contactsDataFn }) {
   // TO HIDE INPUT FIELD
   const [show, setShow] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
@@ -228,7 +228,7 @@ function AddUser({ contactsDataFn }) {
             variant="contained"
             color="success"
           >
-            ADD USER
+            ADD CONTACT
           </Button>
         ) : (
           ""

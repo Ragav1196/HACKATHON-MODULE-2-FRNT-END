@@ -10,7 +10,7 @@ export function ResetPassword() {
   // TO HIDE THE POPUP:
   const [popup, setPopup] = useState(false);
 
-  const styles = { height: popup ? "40px" : "0px" };
+  const styles = { height: popup ? "56px" : "0px" };
 
   const history = useHistory();
 
@@ -54,7 +54,7 @@ export function ResetPassword() {
     });
 
   return (
-    <section>
+    <section className="mainContainer">
       <article style={styles} className="rstPwdPopUpCtnr">
         <p className="rstPwdPopUp">
           Check your E-mail for password reset link. you will now be redirected
@@ -90,6 +90,3 @@ export function ResetPassword() {
     </section>
   );
 }
-
-// ${API_URL}/login
-// ${API_URL}/login

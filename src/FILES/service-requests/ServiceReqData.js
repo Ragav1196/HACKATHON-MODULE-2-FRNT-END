@@ -10,12 +10,11 @@ import { GetUserType } from "../authentication/UserType";
 import { API_URL } from "../globalConstants";
 
 export function ServiceReqData() {
-
   // DECODING THE USERTYPE FROM THE TOKEN
   let decodedObj = GetUserType();
   const userType = decodedObj.id.userType;
 
-  // AFTER GTTING THE SERVICE REQUESTS STORING IT IN A VARIABLE 
+  // AFTER GTTING THE SERVICE REQUESTS STORING IT IN A VARIABLE
   const [serviceReqData, setServiceReqData] = useState([]);
 
   const serviceReqDataFn = () => {
@@ -30,17 +29,25 @@ export function ServiceReqData() {
 
   return (
     <section className="leadsContainer">
-      {userType !== "junior-employee" ? <AddUser serviceReqDataFn={serviceReqDataFn} /> : ""}
+      {userType !== "junior-employee" ? (
+        <AddServiceReq serviceReqDataFn={serviceReqDataFn} />
+      ) : (
+        ""
+      )}
       <article className="leadsData">
         {serviceReqData.map((data, index) => (
-          <ServiceReq data={data} serviceReqDataFn={serviceReqDataFn} key={index} />
+          <ServiceReq
+            data={data}
+            serviceReqDataFn={serviceReqDataFn}
+            key={index}
+          />
         ))}
       </article>
     </section>
   );
 }
 
-function AddUser({ serviceReqDataFn }) {
+function AddServiceReq({ serviceReqDataFn }) {
   // TO HIDE INPUT FIELD
   const [show, setShow] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
@@ -71,7 +78,9 @@ function AddUser({ serviceReqDataFn }) {
     company: yup.string().required("Client company name is required"),
     email: yup.string().required("Client Email is required"),
     title: yup.string().required("Client title is required"),
-    serviceReqSource: yup.string().required("Client service request source is required"),
+    serviceReqSource: yup
+      .string()
+      .required("Client service request source is required"),
     picture: yup
       .string()
       .required("URL for client is required or go with default picture")
@@ -181,7 +190,9 @@ function AddUser({ serviceReqDataFn }) {
               variant="outlined"
               placeholder="Enter service request source"
               helperText={
-                errors.serviceReqSource && touched.serviceReqSource && errors.serviceReqSource
+                errors.serviceReqSource &&
+                touched.serviceReqSource &&
+                errors.serviceReqSource
               }
               error={errors.serviceReqSource && touched.serviceReqSource}
             />
@@ -221,7 +232,7 @@ function AddUser({ serviceReqDataFn }) {
             variant="contained"
             color="success"
           >
-            ADD USER
+            ADD SERVICE REQUEST
           </Button>
         ) : (
           ""

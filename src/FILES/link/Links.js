@@ -92,6 +92,7 @@ export function Links() {
 
           {/* REGISTER */}
           <AdminRoute path="/register">
+            <Topbar />
             <Register />
           </AdminRoute>
 

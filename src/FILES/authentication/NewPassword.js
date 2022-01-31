@@ -12,20 +12,25 @@ export function NewPassword() {
 
   // TO HIDE THE POPUP:
   const [popup, setPopup] = useState(false);
-
-  const styles = { height: popup ? "40px" : "0px" };
-
+  const styles = { height: popup ? "56px" : "0px" };
   const { token } = useParams();
-  console.log(token);
 
   async function userLogin(userInfo) {
-    await fetch(`${API_URL}/new-password`, {
+    const response = await fetch(`${API_URL}/new-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userInfo),
     });
+    const data = await response.json();
+
+    if (data.error) {
+      localStorage.setItem("tokenExpired", true);
+      localStorage.removeItem("tokenExpire");
+      return history.push("./login");
+    }
+
     setPopup(true);
     setTimeout(() => setPopup(false), 5000);
     setTimeout(() => history.push("/login"), 5700);
@@ -58,11 +63,15 @@ export function NewPassword() {
     });
 
   return (
-    <section>
+    <section className="mainContainer">
       <article style={styles} className="rstPwdPopUpCtnr">
-        <p className="rstPwdPopUp">
-          Password successfully updated. you will be redirected to login page
-        </p>
+        {popup ? (
+          <p className="rstPwdPopUp">
+            Password successfully updated. you will be redirected to login page
+          </p>
+        ) : (
+          ""
+        )}
       </article>
       <section className="login">
         <article>

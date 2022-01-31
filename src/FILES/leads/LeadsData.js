@@ -30,7 +30,7 @@ export function LeadsData() {
 
   return (
     <section className="leadsContainer">
-      {userType !== "junior-employee" ? <AddUser leadData={leadData} /> : ""}
+      {userType !== "junior-employee" ? <AddLead leadData={leadData} /> : ""}
       <article className="leadsData">
         {leadsData.map((data, index) => (
           <Leads data={data} leadData={leadData} key={index} />
@@ -40,7 +40,7 @@ export function LeadsData() {
   );
 }
 
-function AddUser({ leadData }) {
+function AddLead({ leadData }) {
   // TO HIDE INPUT FIELD
   const [show, setShow] = useState(false);
   const [hideAdd, setHideAdd] = useState(true);
@@ -221,7 +221,7 @@ function AddUser({ leadData }) {
             variant="contained"
             color="success"
           >
-            ADD USER
+            ADD LEAD
           </Button>
         ) : (
           ""
